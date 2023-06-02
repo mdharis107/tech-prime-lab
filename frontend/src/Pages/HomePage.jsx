@@ -19,6 +19,7 @@ import dashboardImg from "../Images/Dashboard-active.svg";
 import projectListImg from "../Images/Project-list-active.svg";
 import "../App.css";
 import Dashboard from "../Components/Dashboard";
+import ProjectListing from "../Components/ProjectListing";
 
 const HomePage = () => {
   const isVertical = useBreakpointValue({ base: true, lg: false });
@@ -30,7 +31,6 @@ const HomePage = () => {
   };
   return (
     <Box
-    // border={"1px solid red"}
       w={"100%"}
       h={isVertical ? "20vh" : "30vh"}
       backgroundImage={`url(${bgImg})`}
@@ -119,7 +119,7 @@ const HomePage = () => {
             borderRadius={5}
             bg={"white"}
           >
-            {/* <TableComponent /> */}
+            <ProjectListing />
           </TabPanel>
           <TabPanel
             h={!isVertical ? "600px" : ""}
