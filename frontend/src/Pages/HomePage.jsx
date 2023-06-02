@@ -36,7 +36,7 @@ const HomePage = () => {
       backgroundImage={`url(${bgImg})`}
       backgroundSize={!isVertical ? "contain" : "cover"}
       bgRepeat={"no-repeat"}
-      backgroundPosition={!isVertical ? "55px 0" : ""}
+      backgroundPosition={!isVertical ? "65px 0" : ""}
     >
       {!isVertical && (
         <Flex
