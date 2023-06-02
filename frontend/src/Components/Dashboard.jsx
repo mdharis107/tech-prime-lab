@@ -1,5 +1,6 @@
 import { Box, Heading, Stack, useBreakpointValue } from "@chakra-ui/react";
 import React from "react";
+import DashboardCards from "./Miscellaneous/DashboardCards";
 
 const Dashboard = () => {
   const isVertical = useBreakpointValue({ base: true, lg: false });
@@ -7,7 +8,7 @@ const Dashboard = () => {
   return (
     <>
       <Stack w={"100%"}>
-        <DashboardCard />
+        <DashboardCards />
         <Box textAlign={"left"}>
           <Heading fontSize={isVertical ? "15" : "30px"}>
             Department wise - Total vs closed
@@ -20,7 +21,7 @@ const Dashboard = () => {
           bg="white"
           rounded="md"
         >
-          <BarChart />
+          {/* <BarChart /> */}
         </Box>
       </Stack>
       {/* <CardGrid /> */}
