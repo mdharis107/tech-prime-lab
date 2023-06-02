@@ -20,6 +20,7 @@ import projectListImg from "../Images/Project-list-active.svg";
 import "../App.css";
 import Dashboard from "../Components/Dashboard";
 import ProjectListing from "../Components/ProjectListing";
+import CreateProject from "../Components/CreateProject";
 
 const HomePage = () => {
   const isVertical = useBreakpointValue({ base: true, lg: false });
@@ -127,7 +128,7 @@ const HomePage = () => {
             borderRadius={5}
             bg={"white"}
           >
-            {/* <InputComponent /> */}
+            <CreateProject />
           </TabPanel>
         </TabPanels>
         {isVertical && (
