@@ -31,6 +31,7 @@ import {
 // import CardComponent from "./CardComponent";
 import { BsFilterLeft } from "react-icons/bs";
 import { SearchIcon } from "@chakra-ui/icons";
+import CardComponent from "./Miscellaneous/CardComponent";
 
 const ProjectListing = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -124,7 +125,7 @@ const ProjectListing = () => {
       {isMobile ? (
         <Box w={"100%"}>
           {/* Render card components */}
-          {/* <CardComponent /> */}
+          <CardComponent />
           {/* <CardComponent /> */}
           {/* <CardComponent /> */}
         </Box>
