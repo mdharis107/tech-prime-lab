@@ -1,6 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const { connection } = require("./config/db");
+const { UserRouter } = require("./routes/user.routes");
+const { ProjectRouter } = require("./routes/project.routes");
+const { notFound, errorHandler } = require("./middlewares/error.middleware");
 
 require("dotenv").config();
 
@@ -14,6 +17,14 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.send("Welcome to the Home Page");
 });
+
+app.use("/user", UserRouter);
+
+app.use("/project", ProjectRouter);
+
+app.use(notFound);
+
+app.use(errorHandler);
 
 app.listen(PORT, async () => {
   try {
