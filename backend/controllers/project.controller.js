@@ -83,71 +83,71 @@ const countProjects = async (req, res) => {
   }
 };
 
-// const chartProject = async (req, res) => {
-//   const strategy = await ProjectModel.countDocuments({
-//     Department: { $eq: "Strategy" },
-//     Status: { $eq: "closed" },
-//   });
-//   const finance = await ProjectModel.countDocuments({
-//     Department: { $eq: "Finance" },
-//     Status: { $eq: "closed" },
-//   });
-//   const quality = await ProjectModel.countDocuments({
-//     Department: { $eq: "Quality" },
-//     Status: { $eq: "closed" },
-//   });
+const chartProject = async (req, res) => {
+  const strategy = await ProjectModel.countDocuments({
+    Department: { $eq: "Strategy" },
+    Status: { $eq: "closed" },
+  });
+  const finance = await ProjectModel.countDocuments({
+    Department: { $eq: "Finance" },
+    Status: { $eq: "closed" },
+  });
+  const quality = await ProjectModel.countDocuments({
+    Department: { $eq: "Quality" },
+    Status: { $eq: "closed" },
+  });
 
-//   const maintenance = await ProjectModel.countDocuments({
-//     Department: { $eq: "Maintenance" },
-//     Status: { $eq: "closed" },
-//   });
-//   const stores = await ProjectModel.countDocuments({
-//     Department: { $eq: "Stores" },
-//     Status: { $eq: "closed" },
-//   });
-//   const HR = await ProjectModel.countDocuments({
-//     Department: { $eq: "HR" },
-//     Status: { $eq: "closed" },
-//   });
+  const maintenance = await ProjectModel.countDocuments({
+    Department: { $eq: "Maintenance" },
+    Status: { $eq: "closed" },
+  });
+  const stores = await ProjectModel.countDocuments({
+    Department: { $eq: "Stores" },
+    Status: { $eq: "closed" },
+  });
+  const HR = await ProjectModel.countDocuments({
+    Department: { $eq: "HR" },
+    Status: { $eq: "closed" },
+  });
 
-//   const totalStrategy = await ProjectModel.countDocuments({
-//     Department: { $eq: "Strategy" },
-//   });
-//   const totalFinance = await ProjectModel.countDocuments({
-//     Department: { $eq: "Finance" },
-//   });
-//   const totalQuality = await ProjectModel.countDocuments({
-//     Department: { $eq: "Quality" },
-//   });
+  const totalStrategy = await ProjectModel.countDocuments({
+    Department: { $eq: "Strategy" },
+  });
+  const totalFinance = await ProjectModel.countDocuments({
+    Department: { $eq: "Finance" },
+  });
+  const totalQuality = await ProjectModel.countDocuments({
+    Department: { $eq: "Quality" },
+  });
 
-//   const totalMaintenance = await ProjectModel.countDocuments({
-//     Department: { $eq: "Maintenance" },
-//   });
-//   const totalStores = await ProjectModel.countDocuments({
-//     Department: { $eq: "Stores" },
-//   });
-//   const totalHR = await ProjectModel.countDocuments({
-//     Department: { $eq: "HR" },
-//   });
+  const totalMaintenance = await ProjectModel.countDocuments({
+    Department: { $eq: "Maintenance" },
+  });
+  const totalStores = await ProjectModel.countDocuments({
+    Department: { $eq: "Stores" },
+  });
+  const totalHR = await ProjectModel.countDocuments({
+    Department: { $eq: "HR" },
+  });
 
-//   const closed = [strategy, finance, quality, maintenance, stores, HR];
+  const closed = [strategy, finance, quality, maintenance, stores, HR];
 
-//   const total = [
-//     totalStrategy,
-//     totalFinance,
-//     totalQuality,
-//     totalMaintenance,
-//     totalStores,
-//     totalHR,
-//   ];
+  const total = [
+    totalStrategy,
+    totalFinance,
+    totalQuality,
+    totalMaintenance,
+    totalStores,
+    totalHR,
+  ];
 
-//   try {
-//     res.status(200).send({ closed, total });
-//   } catch (err) {
-//     console.log(err);
-//     res.send({ msg: "No data found" });
-//   }
-// };
+  try {
+    res.status(200).send({ closed, total });
+  } catch (err) {
+    console.log(err);
+    res.send({ msg: "No data found" });
+  }
+};
 
 module.exports = {
   addProject,
