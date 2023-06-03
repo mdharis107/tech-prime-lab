@@ -187,9 +187,30 @@ const chartProject = async (req, res) => {
   }
 };
 
+const updateStatus = async (req, res) => {
+  const { Status, id } = req.body;
+
+  const updatedStatus = await ProjectModel.findByIdAndUpdate(
+    id,
+    {
+      Status,
+    },
+    {
+      new: true,
+    }
+  );
+
+  if (!updatedStatus) {
+    res.status(404).send({ msg: "Project Not Found" });
+  } else {
+    res.status(200).send({ msg: "Status Updated", updatedStatus });
+  }
+};
+
 module.exports = {
   addProject,
   getProject,
   countProjects,
   chartProject,
+  updateStatus,
 };
