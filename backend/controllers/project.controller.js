@@ -37,15 +37,15 @@ const addProject = async (req, res) => {
   }
 };
 
-// const getProject = async (req, res) => {
-//   const projects = await ProjectModel.find({});
-//   try {
-//     res.status(200).send(projects);
-//   } catch (err) {
-//     console.log(err);
-//     res.status(400).send({ msg: "No Data Found" });
-//   }
-// };
+const getProject = async (req, res) => {
+  const projects = await ProjectModel.find({});
+  try {
+    res.status(200).send(projects);
+  } catch (err) {
+    console.log(err);
+    res.status(400).send({ msg: "No Data Found" });
+  }
+};
 
 // const countProjects = async (req, res) => {
 //   const currentDate = new Date();
