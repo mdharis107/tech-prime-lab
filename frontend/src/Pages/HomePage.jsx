@@ -10,6 +10,7 @@ import {
   Image,
   Heading,
   Flex,
+  Divider,
 } from "@chakra-ui/react";
 import bgImg from "../Images/dashboardImage.svg";
 import logo from "../Images/Logo.svg";
@@ -37,7 +38,7 @@ const HomePage = () => {
       backgroundImage={`url(${bgImg})`}
       backgroundSize={!isVertical ? "contain" : "cover"}
       bgRepeat={"no-repeat"}
-      backgroundPosition={!isVertical ? "65px 0" : ""}
+      backgroundPosition={!isVertical ? "60px 0" : ""}
     >
       {!isVertical && (
         <Flex
@@ -77,14 +78,21 @@ const HomePage = () => {
         orientation={!isVertical ? "vertical" : "horizontal"}
       >
         {!isVertical && (
-          <TabList mt={10} borderRadius={5} gap={10} mr={5}>
+          <TabList
+            pr={2}
+            boxShadow="xl"
+            mt={10}
+            borderRadius={5}
+            gap={5}
+            mr={5}
+          >
             <Tab
               _selected={{
                 borderLeft: "5px solid blue",
               }}
               mt={5}
             >
-              <Image src={dashboardImg} />
+              <Image boxSize={7} src={dashboardImg} />
             </Tab>
             <Tab
               _selected={{
@@ -92,8 +100,10 @@ const HomePage = () => {
               }}
               mt={5}
             >
-              <Image src={projectListImg} />
+              <Image boxSize={7} src={projectListImg} />
             </Tab>
+
+            <Divider p={0}  />
             <Tab
               _selected={{
                 borderLeft: "5px solid blue",
@@ -101,10 +111,10 @@ const HomePage = () => {
               mt={5}
               mb={10}
             >
-              <Image src={createProjectImg} />
+              <Image boxSize={7} src={createProjectImg} />
             </Tab>
             <Tab mt={10}>
-              <Image src={logoutImg} />
+              <Image boxSize={7} src={logoutImg} />
             </Tab>
           </TabList>
         )}
