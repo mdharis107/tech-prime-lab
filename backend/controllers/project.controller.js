@@ -38,7 +38,10 @@ const addProject = async (req, res) => {
 };
 
 const getProject = async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
 
+  //Filter Functionality
   const filterData = req.query.filter
     ? {
         $or: [
@@ -55,6 +58,7 @@ const getProject = async (req, res) => {
       }
     : {};
 
+  // Sorting Functionality
   let sort = req.query.sort || "ProjectName";
   req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
 
@@ -64,9 +68,14 @@ const getProject = async (req, res) => {
   } else {
     sortBy[sort[0]] = "asc";
   }
- 
 
-  const projects = await ProjectModel.find({}).find(filterData).sort(sortBy);
+  //Pagination Functionality
+
+  const projects = await ProjectModel.find({})
+    .find(filterData)
+    .sort(sortBy)
+    .skip((page - 1) * limit)
+    .limit(limit);
 
   try {
     res.status(200).send(projects);
