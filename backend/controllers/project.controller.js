@@ -38,7 +38,36 @@ const addProject = async (req, res) => {
 };
 
 const getProject = async (req, res) => {
-  const projects = await ProjectModel.find({});
+
+  const filterData = req.query.filter
+    ? {
+        $or: [
+          { ProjectName: { $regex: req.query.filter, $options: "i" } },
+          { Reason: { $regex: req.query.filter, $options: "i" } },
+          { Type: { $regex: req.query.filter, $options: "i" } },
+          { Division: { $regex: req.query.filter, $options: "i" } },
+          { Category: { $regex: req.query.filter, $options: "i" } },
+          { Priority: { $regex: req.query.filter, $options: "i" } },
+          { Department: { $regex: req.query.filter, $options: "i" } },
+          { Location: { $regex: req.query.filter, $options: "i" } },
+          { Status: { $regex: req.query.filter, $options: "i" } },
+        ],
+      }
+    : {};
+
+  let sort = req.query.sort || "ProjectName";
+  req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
+
+  let sortBy = {};
+  if (sort[1]) {
+    sortBy[sort[0]] = sort[1];
+  } else {
+    sortBy[sort[0]] = "asc";
+  }
+ 
+
+  const projects = await ProjectModel.find({}).find(filterData).sort(sortBy);
+
   try {
     res.status(200).send(projects);
   } catch (err) {
