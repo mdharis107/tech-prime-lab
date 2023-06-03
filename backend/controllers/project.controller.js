@@ -47,41 +47,41 @@ const getProject = async (req, res) => {
   }
 };
 
-// const countProjects = async (req, res) => {
-//   const currentDate = new Date();
-//   //   console.log(currentDate);
+const countProjects = async (req, res) => {
+  const currentDate = new Date();
+  //   console.log(currentDate);
 
-//   const totalProjects = await ProjectModel.countDocuments();
+  const totalProjects = await ProjectModel.countDocuments();
 
-//   const closedProject = await ProjectModel.countDocuments({
-//     Status: { $eq: "Closed" },
-//   });
+  const closedProject = await ProjectModel.countDocuments({
+    Status: { $eq: "Closed" },
+  });
 
-//   const runningProject = await ProjectModel.countDocuments({
-//     Status: { $eq: "Running" },
-//   });
+  const runningProject = await ProjectModel.countDocuments({
+    Status: { $eq: "Running" },
+  });
 
-//   const cancelledProject = await ProjectModel.countDocuments({
-//     Status: { $eq: "Cancelled" },
-//   });
+  const cancelledProject = await ProjectModel.countDocuments({
+    Status: { $eq: "Cancelled" },
+  });
 
-//   const delayProject = await ProjectModel.countDocuments({
-//     EndDate: { $gt: currentDate },
-//   });
+  const delayProject = await ProjectModel.countDocuments({
+    EndDate: { $gt: currentDate },
+  });
 
-//   try {
-//     res.status(200).send({
-//       total: totalProjects,
-//       closed: closedProject,
-//       running: runningProject,
-//       cancelled: cancelledProject,
-//       delay: delayProject,
-//     });
-//   } catch (error) {
-//     console.log(err);
-//     res.status(400).send({ msg: "No Data Found" });
-//   }
-// };
+  try {
+    res.status(200).send({
+      total: totalProjects,
+      closed: closedProject,
+      running: runningProject,
+      cancelled: cancelledProject,
+      delay: delayProject,
+    });
+  } catch (error) {
+    console.log(err);
+    res.status(400).send({ msg: "No Data Found" });
+  }
+};
 
 // const chartProject = async (req, res) => {
 //   const strategy = await ProjectModel.countDocuments({
