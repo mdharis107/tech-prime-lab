@@ -4,32 +4,6 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 
 Chart.register(ChartDataLabels);
 
-const chartData = {
-  labels: ["a", "b", "c", "d", "e", "f"],
-  datasets: [
-    {
-      label: "Temperature",
-      data: [12, 15, 20, 20, 11, 18],
-      backgroundColor: "blue",
-      borderColor: "blue",
-      borderWidth: 1,
-      borderRadius: 5,
-      barPercentage: 0.5,
-      categoryPercentage: 0.4,
-    },
-    {
-      label: "Temperature",
-      data: [10, 10, 21, 20, 10, 15],
-      backgroundColor: "green",
-      borderColor: "green",
-      borderWidth: 1,
-      borderRadius: 5,
-      barPercentage: 0.5,
-      categoryPercentage: 0.4,
-    },
-  ],
-};
-
 const options = {
   responsive: true,
   maintainAspectRatio: false,
@@ -56,18 +30,43 @@ const options = {
       display: true,
       color: "black",
       anchor: "end",
-      offset: -18,
+      offset: -17,
       align: "start",
     },
   },
 };
 
-const BarChart = () => {
+const BarChart = ({ data }) => {
+  const chartData = {
+    labels: ["STR", "FIN", "QLT", "MAN", "STO", "HR"],
+    datasets: [
+      {
+        label: "Total",
+        data: data.total,
+        backgroundColor: "blue",
+        borderColor: "blue",
+        borderWidth: 1,
+        borderRadius: 5,
+        barPercentage: 0.5,
+        categoryPercentage: 0.4,
+      },
+      {
+        label: "Closed",
+        data: data.closed,
+        backgroundColor: "green",
+        borderColor: "green",
+        borderWidth: 1,
+        borderRadius: 5,
+        barPercentage: 0.5,
+        categoryPercentage: 0.4,
+      },
+    ],
+  };
   return (
     <>
       <Bar
-        width={"350px"}
-        height={"350px"}
+        width={"355px"}
+        height={"360px"}
         data={chartData}
         options={options}
       />

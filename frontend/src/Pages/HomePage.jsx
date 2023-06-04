@@ -31,6 +31,7 @@ const HomePage = () => {
   const handleTabChange = (index) => {
     setCurrentTab(index);
   };
+  
   return (
     <Box
       w={"100%"}

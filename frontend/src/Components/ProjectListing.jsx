@@ -24,12 +24,24 @@ import { SearchIcon } from "@chakra-ui/icons";
 import CardComponent from "./Miscellaneous/CardComponent";
 import axios from "axios";
 import ProjectTable from "./Miscellaneous/ProjectTable";
+import Pagination from "./Pagination";
+import { getPage } from "./utils/utils";
+import { useSearchParams } from "react-router-dom";
 
 const ProjectListing = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedOption, setSelectedOption] = useState("");
   const [data, setData] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initPage = getPage(searchParams.get("page"));
+  const [page, setPage] = useState(initPage);
+  const [totalPages, setTotalPages] = useState();
+  const AllPage = Math.ceil(totalPages / 10);
+
+  // console.log(totalPages);
+
+  // console.log(searchParams);
 
   const handleSelectChange = (event) => {
     setSelectedOption(event.target.value);
@@ -40,11 +52,32 @@ const ProjectListing = () => {
     onClose();
   };
 
-  useEffect(() => {
-    axios.get(`http://localhost:8000/project`).then((res) => setData(res.data));
-  }, []);
+  const fetchData = async (page) => {
+    return axios.get(`http://localhost:8000/project?limit=${10}&page=${page}`);
+  };
 
-  // const isScreenSizeReduced = useBreakpointValue({ base: true, md: false });
+  // console.log(data);
+
+  // const handlePageChange = (page) => {
+  //   // console.log(page,"here")
+  //   setCurrentPage(page);
+  //   fetchData(page);
+  // };
+
+  useEffect(() => {
+    fetchData(page)
+      .then((res) => {
+        setData(res.data.projects);
+        setTotalPages(res.data.totalCount);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [page]);
+
+  useEffect(() => {
+    setSearchParams({ page });
+  }, [setSearchParams, page]);
 
   return (
     <>
@@ -120,7 +153,7 @@ const ProjectListing = () => {
       </Flex>
 
       {isMobile ? (
-        <Box  w={"100%"}>
+        <Box w={"100%"}>
           {/* Render card components */}
           {data.map((ele) => {
             return (
@@ -142,78 +175,21 @@ const ProjectListing = () => {
           })}
         </Box>
       ) : (
-        // <TableContainer borderRadius={5} w={"100%"}>
-        //   <Table size={"sm"} variant="simple">
-        //     <Thead bgColor={"gray.100"}>
-        //       <Tr>
-        //         <Th py={3}>Project Name</Th>
-        //         <Th>Reason</Th>
-        //         <Th>Type</Th>
-        //         <Th>Division</Th>
-        //         <Th>Category</Th>
-        //         <Th>Priority</Th>
-        //         <Th>Dept.</Th>
-        //         <Th>Location</Th>
-        //         <Th>Status</Th>
-        //         <Th></Th>
-        //         <Th></Th>
-        //         <Th></Th>
-        //       </Tr>
-        //     </Thead>
-        //     <Tbody>
-        //       <Tr>
-        //         <Td w={"100px"}>
-        //           <Heading fontSize={"18px"} color={"gray.700"}>
-        //             Line Filter
-        //           </Heading>
-        //           <Text fontSize={"12px"} color={"gray.500"}>
-        //             Jun-21, 2020 to Jan-01, 2021
-        //           </Text>
-        //         </Td>
-        //         <Td>Value 2</Td>
-        //         <Td>Value 3</Td>
-        //         <Td>Value 1</Td>
-        //         <Td>Value 2</Td>
-        //         <Td>Value 3</Td>
-        //         <Td>Value 1</Td>
-        //         <Td>Value 2</Td>
-        //         <Td>Value 3</Td>
-        //         <Td>
-        //           <Button
-        //             size={"sm"}
-        //             borderRadius={20}
-        //             colorScheme="blue"
-        //             variant={"solid"}
-        //           >
-        //             START
-        //           </Button>
-        //         </Td>
-        //         <Td>
-        //           <Button
-        //             size={"sm"}
-        //             borderRadius={20}
-        //             colorScheme="blue"
-        //             variant={"outline"}
-        //           >
-        //             CLOSE
-        //           </Button>
-        //         </Td>
-        //         <Td>
-        //           <Button
-        //             size={"sm"}
-        //             borderRadius={20}
-        //             colorScheme="blue"
-        //             variant={"outline"}
-        //           >
-        //             END
-        //           </Button>
-        //         </Td>
-        //       </Tr>
-        //     </Tbody>
-        //   </Table>
-        // </TableContainer>
         <ProjectTable data={data} />
       )}
+      <Box pb={5}  >
+        <Pagination
+          currentPage={page}
+          totalPages={AllPage}
+          onPageChange={(page) => setPage(page)}
+        />
+
+        {/* <Pagination
+          totalPage={AllPage}
+          current={page}
+          onChange={(page) => setPage(page)}
+        /> */}
+      </Box>
     </>
   );
 };

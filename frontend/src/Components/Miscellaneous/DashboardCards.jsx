@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Heading, Text, useBreakpointValue } from "@chakra-ui/react";
 
-const Card = () => {
+const Card = ({ head, count }) => {
   const isVertical = useBreakpointValue({ base: true, lg: false });
 
   return (
@@ -17,34 +17,28 @@ const Card = () => {
       marginBottom={4}
       bgColor={"white"}
       textAlign={"left"}
-      // pr={10}
-
-      // border={"1px solid red"}
     >
       {/* Card Content */}
-      <Text color={"gray.500"}>Total Projects</Text>
+      <Text color={"gray.500"}>{head}</Text>
       <Heading pr={20} color={"gray.600"} fontSize={"5xl"}>
-        8
+        {count}
       </Heading>
     </Box>
   );
 };
 
-const DashboardCards = () => {
+const DashboardCards = ({ data }) => {
   const isVertical = useBreakpointValue({ base: true, lg: false });
   return (
     <Box
       width={"100%"}
       display="flex"
-      // flexWrap={"wrap"}
       gap={5}
       overflow={isVertical ? "scroll" : "inherit"}
     >
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
+      {data.map((ele) => {
+        return <Card head={ele.head} count={ele.count} />;
+      })}
     </Box>
   );
 };
