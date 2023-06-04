@@ -4,7 +4,6 @@ import { Box, Button, ButtonGroup, Center, Text } from "@chakra-ui/react";
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const [pageNumbers, setPageNumbers] = useState([]);
 
-  console.log(pageNumbers, currentPage);
 
     useEffect(() => {
       const numbers = Array.from({ length: totalPages }, (_, index) => index + 1);

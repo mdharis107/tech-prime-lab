@@ -52,7 +52,7 @@ const ProjectListing = () => {
   };
 
   const handleOptionSelect = (option) => {
-    setSelectedOption(option);
+    setSortBy(option);
     onClose();
   };
 
@@ -130,23 +130,25 @@ const ProjectListing = () => {
                 >
                   <option value="ProjectName">ProjectName</option>
                   <option value="Reason">Reason</option>
-                  <option value="Type">Type</option>
+                  {/* <option value="Type">Type</option> */}
                   <option value="Division">Division</option>
-                  <option value="Category">Category</option>
-                  <option value="Priority">Priority</option>
-                  <option value="Department">Department</option>
+                  {/* <option value="Category">Category</option> */}
+                  {/* <option value="Priority">Priority</option> */}
+                  {/* <option value="Department">Department</option> */}
                   <option value="Location">Location</option>
                   <option value="Status">Status</option>
+                  <option value="StartDate">StartDate</option>
+                  <option value="EndDate">EndDate</option>
                 </Select>
               </Box>
             </Flex>
           ) : (
             <Box>
-              <Select
+              {/* <Select
                 value={selectedOption}
                 onChange={handleSelectChange}
                 display="none"
-              />
+              /> */}
               <Box onClick={onOpen} cursor="pointer">
                 <Icon boxSize={8} as={BsFilterLeft} />
               </Box>
@@ -157,14 +159,22 @@ const ProjectListing = () => {
                   <DrawerHeader>Sort Projects By</DrawerHeader>
                   <DrawerBody>
                     <List spacing={5}>
-                      <ListItem onClick={() => handleOptionSelect("Option 1")}>
-                        Option 1
+                      <ListItem
+                        onClick={() => handleOptionSelect("ProjectName")}
+                      >
+                        Project Name
                       </ListItem>
-                      <ListItem onClick={() => handleOptionSelect("Option 2")}>
-                        Option 2
+                      <ListItem onClick={() => handleOptionSelect("Priority")}>
+                        Priority
                       </ListItem>
-                      <ListItem onClick={() => handleOptionSelect("Option 3")}>
-                        Option 3
+                      <ListItem onClick={() => handleOptionSelect("Status")}>
+                        Status
+                      </ListItem>
+                      <ListItem onClick={() => handleOptionSelect("StartDate")}>
+                        StartDate
+                      </ListItem>
+                      <ListItem onClick={() => handleOptionSelect("EndDate")}>
+                        EndDate
                       </ListItem>
                     </List>
                   </DrawerBody>
