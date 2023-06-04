@@ -38,13 +38,15 @@ const ProjectListing = () => {
   const [page, setPage] = useState(initPage);
   const [totalPages, setTotalPages] = useState();
   const AllPage = Math.ceil(totalPages / 10);
+  const [query, setQuery] = useState("");
+  const [sortBy, setSortBy] = useState("");
 
   // console.log(totalPages);
 
   // console.log(searchParams);
 
-  const handleSelectChange = (event) => {
-    setSelectedOption(event.target.value);
+  const handleSelectChange = (e) => {
+    setSortBy(e.target.value);
   };
 
   const handleOptionSelect = (option) => {
@@ -52,8 +54,10 @@ const ProjectListing = () => {
     onClose();
   };
 
-  const fetchData = async (page) => {
-    return axios.get(`http://localhost:8000/project?limit=${10}&page=${page}`);
+  const fetchData = async (page, query) => {
+    return axios.get(
+      `http://localhost:8000/project?limit=${10}&page=${page}&filter=${query}`
+    );
   };
 
   // console.log(data);
@@ -65,7 +69,7 @@ const ProjectListing = () => {
   // };
 
   useEffect(() => {
-    fetchData(page)
+    fetchData(page, query)
       .then((res) => {
         setData(res.data.projects);
         setTotalPages(res.data.totalCount);
@@ -73,7 +77,7 @@ const ProjectListing = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [page]);
+  }, [page, query]);
 
   useEffect(() => {
     setSearchParams({ page });
@@ -93,7 +97,13 @@ const ProjectListing = () => {
             <InputLeftElement pointerEvents="none">
               <SearchIcon color="gray.300" />
             </InputLeftElement>
-            <Input type="text" variant="flushed" placeholder="Search" />
+            <Input
+              value={query}
+              type="text"
+              variant="flushed"
+              placeholder="Search"
+              onChange={(e) => setQuery(e.target.value)}
+            />
           </InputGroup>
         </Box>
         <Box>
@@ -108,12 +118,18 @@ const ProjectListing = () => {
               <Box>
                 <Select
                   variant="unstyled"
-                  value={selectedOption}
+                  value={sortBy}
                   onChange={handleSelectChange}
+                  placeholder="Select any Option"
                 >
-                  <option value="option1">Option 1</option>
-                  <option value="option2">Option 2</option>
-                  <option value="option3">Option 3</option>
+                  <option value="Reason">Reason</option>
+                  <option value="Type">Type</option>
+                  <option value="Division">Division</option>
+                  <option value="Category">Category</option>
+                  <option value="Priority">Priority</option>
+                  <option value="Department">Department</option>
+                  <option value="Location">Location</option>
+                  <option value="Status">Status</option>
                 </Select>
               </Box>
             </Flex>
@@ -177,7 +193,7 @@ const ProjectListing = () => {
       ) : (
         <ProjectTable data={data} />
       )}
-      <Box pb={5}  >
+      <Box pb={5}>
         <Pagination
           currentPage={page}
           totalPages={AllPage}
