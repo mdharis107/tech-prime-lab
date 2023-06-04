@@ -25,7 +25,7 @@ import CardComponent from "./Miscellaneous/CardComponent";
 import axios from "axios";
 import ProjectTable from "./Miscellaneous/ProjectTable";
 import Pagination from "./Pagination";
-import { getPage } from "./utils/utils";
+import { getPage, getQuery, getSort } from "./utils/utils";
 import { useSearchParams } from "react-router-dom";
 
 const ProjectListing = () => {
@@ -35,11 +35,13 @@ const ProjectListing = () => {
   const [data, setData] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const initPage = getPage(searchParams.get("page"));
+  const initSort = getSort(searchParams.get("sortOrder"));
+  const initQuery = getQuery(searchParams.get("query"));
   const [page, setPage] = useState(initPage);
   const [totalPages, setTotalPages] = useState();
   const AllPage = Math.ceil(totalPages / 10);
-  const [query, setQuery] = useState("");
-  const [sortBy, setSortBy] = useState("");
+  const [query, setQuery] = useState(initQuery);
+  const [sortBy, setSortBy] = useState(initSort);
 
   // console.log(totalPages);
 
@@ -54,9 +56,9 @@ const ProjectListing = () => {
     onClose();
   };
 
-  const fetchData = async (page, query) => {
+  const fetchData = async (page, query, sortBy) => {
     return axios.get(
-      `http://localhost:8000/project?limit=${10}&page=${page}&filter=${query}`
+      `http://localhost:8000/project?limit=${10}&page=${page}&filter=${query}&sort=${sortBy}`
     );
   };
 
@@ -69,7 +71,7 @@ const ProjectListing = () => {
   // };
 
   useEffect(() => {
-    fetchData(page, query)
+    fetchData(page, query, sortBy)
       .then((res) => {
         setData(res.data.projects);
         setTotalPages(res.data.totalCount);
@@ -77,11 +79,15 @@ const ProjectListing = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [page, query]);
+  }, [page, query, sortBy]);
 
   useEffect(() => {
-    setSearchParams({ page });
-  }, [setSearchParams, page]);
+    if (query === "") {
+      setSearchParams({ page, sortBy });
+    } else {
+      setSearchParams({ page, query, sortBy });
+    }
+  }, [setSearchParams, page, query, sortBy]);
 
   return (
     <>
@@ -122,6 +128,7 @@ const ProjectListing = () => {
                   onChange={handleSelectChange}
                   placeholder="Select any Option"
                 >
+                  <option value="ProjectName">ProjectName</option>
                   <option value="Reason">Reason</option>
                   <option value="Type">Type</option>
                   <option value="Division">Division</option>
