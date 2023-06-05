@@ -28,6 +28,13 @@ const addProject = async (req, res) => {
     Location,
     Status,
   });
+
+  if (StartDate > EndDate) {
+    return res.send({
+      msg: "Start Date cannot be greater than End Date",
+      err: true,
+    });
+  }
   try {
     await project.save();
     res.status(201).send({ msg: "New Project created" });
@@ -70,15 +77,17 @@ const getProject = async (req, res) => {
   }
 
   //Pagination Functionality
-
+  const totalCount = await ProjectModel.countDocuments();
   const projects = await ProjectModel.find({})
     .find(filterData)
     .sort(sortBy)
     .skip((page - 1) * limit)
     .limit(limit);
 
+  // console.log(totalCount);
+
   try {
-    res.status(200).send(projects);
+    res.status(200).send({ projects, totalCount });
   } catch (err) {
     console.log(err);
     res.status(400).send({ msg: "No Data Found" });
@@ -107,14 +116,31 @@ const countProjects = async (req, res) => {
     EndDate: { $gt: currentDate },
   });
 
+  const count = [
+    totalProjects,
+    closedProject,
+    runningProject,
+    delayProject,
+    cancelledProject,
+  ];
+
+  const head = [
+    "Total Projects",
+    "Closed",
+    "Running",
+    "Closure Delay",
+    "Cancelled",
+  ];
+
+  const countObj = count.map((ele, index) => {
+    return {
+      count: ele,
+      head: head[index],
+    };
+  });
+
   try {
-    res.status(200).send({
-      total: totalProjects,
-      closed: closedProject,
-      running: runningProject,
-      cancelled: cancelledProject,
-      delay: delayProject,
-    });
+    res.status(200).send(countObj);
   } catch (error) {
     console.log(err);
     res.status(400).send({ msg: "No Data Found" });
@@ -124,28 +150,28 @@ const countProjects = async (req, res) => {
 const chartProject = async (req, res) => {
   const strategy = await ProjectModel.countDocuments({
     Department: { $eq: "Strategy" },
-    Status: { $eq: "closed" },
+    Status: { $eq: "Closed" },
   });
   const finance = await ProjectModel.countDocuments({
     Department: { $eq: "Finance" },
-    Status: { $eq: "closed" },
+    Status: { $eq: "Closed" },
   });
   const quality = await ProjectModel.countDocuments({
     Department: { $eq: "Quality" },
-    Status: { $eq: "closed" },
+    Status: { $eq: "Closed" },
   });
 
   const maintenance = await ProjectModel.countDocuments({
     Department: { $eq: "Maintenance" },
-    Status: { $eq: "closed" },
+    Status: { $eq: "Closed" },
   });
   const stores = await ProjectModel.countDocuments({
     Department: { $eq: "Stores" },
-    Status: { $eq: "closed" },
+    Status: { $eq: "Closed" },
   });
   const HR = await ProjectModel.countDocuments({
     Department: { $eq: "HR" },
-    Status: { $eq: "closed" },
+    Status: { $eq: "Closed" },
   });
 
   const totalStrategy = await ProjectModel.countDocuments({
@@ -189,8 +215,9 @@ const chartProject = async (req, res) => {
 
 const updateStatus = async (req, res) => {
   const { Status, id } = req.body;
+  
 
-  const updatedStatus = await ProjectModel.findByIdAndUpdate(
+  await ProjectModel.findByIdAndUpdate(
     id,
     {
       Status,
@@ -199,6 +226,8 @@ const updateStatus = async (req, res) => {
       new: true,
     }
   );
+
+  const updatedStatus = await ProjectModel.find();
 
   if (!updatedStatus) {
     res.status(404).send({ msg: "Project Not Found" });

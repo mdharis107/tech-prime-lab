@@ -14,14 +14,14 @@ const projectSchema = new mongoose.Schema({
   Status: { type: String, default: "Registered" },
 });
 
-projectSchema.pre("save", function (next) {
-  if (this.StartDate && this.EndDate && this.StartDate > this.EndDate) {
-    const error = new Error("Start date cannot be greater than end date.");
-    error.status = 400; // Custom status code
-    return next(error);
-  }
-  next();
-});
+// projectSchema.pre("save", function (next) {
+//   if (this.StartDate && this.EndDate && this.StartDate > this.EndDate) {
+//     const error = new Error("Start date cannot be greater than end date.");
+//     error.status = 400; // Custom status code
+//     return next(error);
+//   }
+//   next();
+// });
 
 const ProjectModel = mongoose.model("project", projectSchema);
 
