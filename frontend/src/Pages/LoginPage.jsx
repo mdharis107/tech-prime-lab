@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import bgImg from "../Images/login-bg.svg";
 import logo from "../Images/Logo.svg";
 
@@ -15,10 +15,65 @@ import {
   Text,
   useColorModeValue,
   Image,
+  FormErrorMessage,
+  useToast,
 } from "@chakra-ui/react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { saveData } from "../Components/utils/localStorage";
 
 const LoginPage = () => {
   const isVertical = useBreakpointValue({ base: true, lg: false });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [checkEmail, setCheckEmail] = useState(false);
+  const [checkPass, setCheckPass] = useState(false);
+  const navigate = useNavigate();
+  const toast = useToast();
+
+  const handleChangeEmail = (e) => {
+    setEmail(e.target.value);
+    setCheckEmail(false);
+  };
+
+  const handleChangePass = (e) => {
+    setPassword(e.target.value);
+    setCheckPass(false);
+  };
+
+  const handleSubmit = () => {
+    if (email.trim() === "") {
+      setCheckEmail(true);
+    }
+    if (password.trim() === "") {
+      setCheckPass(true);
+    }
+
+    axios
+      .post("http://localhost:8000/user/login", { email, password })
+      .then((res) => {
+        console.log(res.data.msg);
+        toast({
+          title: res.data.msg,
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+          position: "bottom",
+        });
+        saveData("userInfo", true);
+        navigate("/projects");
+      })
+      .catch((err) => {
+        // console.log(err.response.data.msg);
+        toast({
+          title: err.response.data.msg,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "bottom",
+        });
+      });
+  };
 
   return (
     <>
@@ -46,7 +101,7 @@ const LoginPage = () => {
           </Flex>
         </Box>
 
-        <Box mt={ isVertical ? 60 : 50} w={"auto"}>
+        <Box mt={isVertical ? 60 : 50} w={"auto"}>
           <Stack
             mt={isVertical ? -150 : ""}
             // border={"1px solid red"}
@@ -69,18 +124,32 @@ const LoginPage = () => {
                 Login to get Started
               </Text>
             </Stack>
-            <Box
-              // p={5}
-              // w={"90%"}
-            >
+            <Box>
+              {/* <form action=""> */}
               <Stack spacing={4}>
-                <FormControl id="email">
+                <FormControl isInvalid={checkEmail} id="email">
                   <FormLabel>Email address</FormLabel>
-                  <Input size={"lg"} type="email" />
+                  <Input
+                    onChange={handleChangeEmail}
+                    value={email}
+                    size={"lg"}
+                    type="email"
+                  />
+                  {checkEmail && (
+                    <FormErrorMessage>Email is required.</FormErrorMessage>
+                  )}
                 </FormControl>
-                <FormControl id="password">
+                <FormControl isInvalid={checkPass} id="password">
                   <FormLabel>Password</FormLabel>
-                  <Input size={"lg"} type="password" />
+                  <Input
+                    onChange={handleChangePass}
+                    value={password}
+                    size={"lg"}
+                    type="password"
+                  />
+                  {checkPass && (
+                    <FormErrorMessage>Email is required.</FormErrorMessage>
+                  )}
                 </FormControl>
                 <Stack mt={8} spacing={10}>
                   <Button
@@ -92,11 +161,13 @@ const LoginPage = () => {
                       bg: "blue.500",
                     }}
                     borderRadius={25}
+                    onClick={handleSubmit}
                   >
                     Login
                   </Button>
                 </Stack>
               </Stack>
+              {/* </form> */}
             </Box>
           </Stack>
         </Box>

@@ -93,13 +93,13 @@ const ProjectListing = () => {
     }
   }, [setSearchParams, page, query, sortBy]);
 
-
   return (
     <>
       <Flex
         pb={5}
         pt={3}
-        px={10}
+        px={isMobile ? 0 : 8}
+        // gap={10}
         alignItems={"center"}
         justifyContent={"space-between"}
       >
@@ -216,14 +216,14 @@ const ProjectListing = () => {
       {AllPage === 1 ? (
         ""
       ) : (
-        <Box w={"90%"} mb={2} p={2} borderRadius={5}>
+        <Box mb={2} p={2} borderRadius={5}>
           <Pagination
             currentPage={page}
             totalPages={AllPage}
             onPageChange={(page) => setPage(page)}
           />
         </Box>
-       )} 
+      )}
     </>
   );
 };

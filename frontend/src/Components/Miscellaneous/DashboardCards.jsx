@@ -36,8 +36,8 @@ const DashboardCards = ({ data }) => {
       gap={5}
       overflow={isVertical ? "scroll" : "inherit"}
     >
-      {data.map((ele) => {
-        return <Card head={ele.head} count={ele.count} />;
+      {data.map((ele, index) => {
+        return <Card key={index} head={ele.head} count={ele.count} />;
       })}
     </Box>
   );

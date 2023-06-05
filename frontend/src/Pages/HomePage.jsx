@@ -33,9 +33,7 @@ const HomePage = () => {
   };
 
   return (
-    <Box
-      w={"100%"}
-    >
+    <Box w={"100%"}>
       <Box
         w={"100%"}
         h={isVertical ? "20vh" : "30vh"}
@@ -72,15 +70,14 @@ const HomePage = () => {
           gap={10}
           // position={"fixed"}
         >
-          <Heading  fontWeight={500} color={"white"} fontSize={"25px"}>
+          <Heading fontWeight={500} color={"white"} fontSize={"25px"}>
             {tabs[currentTab]}
           </Heading>
-          <Image  mr={5} src={logoutImg} />
+          <Image mr={5} src={logoutImg} />
         </Flex>
       )}
 
       <Tabs
-      position={"rela"}
         onChange={handleTabChange}
         index={currentTab}
         bg={"transparent"}
@@ -141,11 +138,9 @@ const HomePage = () => {
             <Dashboard />
           </TabPanel>
           <TabPanel
-            h={!isVertical ? "600px" : ""}
+            h={!isVertical ? "660px" : ""}
             boxShadow="xl"
-            p={0}
             borderRadius={5}
-            // bgColor={"gray.200"}
           >
             <ProjectListing />
           </TabPanel>
