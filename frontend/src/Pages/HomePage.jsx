@@ -22,14 +22,23 @@ import "../App.css";
 import Dashboard from "../Components/Dashboard";
 import ProjectListing from "../Components/ProjectListing";
 import CreateProject from "../Components/CreateProject";
+import { removeData } from "../Components/utils/localStorage";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const isVertical = useBreakpointValue({ base: true, lg: false });
   const tabs = ["Dashboard", "Project Listing", "Create Project"];
   const [currentTab, setCurrentTab] = useState(0);
+  const navigate = useNavigate();
 
   const handleTabChange = (index) => {
     setCurrentTab(index);
+  };
+
+  const handleLogout = () => {
+    console.log("object");
+    removeData("userInfo");
+    navigate("/");
   };
 
   return (
@@ -90,10 +99,11 @@ const HomePage = () => {
           <TabList
             pr={2}
             boxShadow="xl"
-            mt={10}
+            // mt={10}
             borderRadius={5}
-            gap={5}
+            // gap={5}
             mr={5}
+            // h={"90vh"}
           >
             <Tab
               _selected={{
@@ -119,11 +129,17 @@ const HomePage = () => {
               }}
               mt={5}
               mb={10}
+              pb={10}
             >
               <Image boxSize={7} src={createProjectImg} />
             </Tab>
-            <Tab mt={10}>
-              <Image boxSize={7} src={logoutImg} />
+            <Tab isDisabled pt={10} mt={10}>
+              <Image
+                cursor={"pointer"}
+                onClick={handleLogout}
+                boxSize={7}
+                src={logoutImg}
+              />
             </Tab>
           </TabList>
         )}
