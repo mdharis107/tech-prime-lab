@@ -45,7 +45,7 @@ const HomePage = () => {
     <Box w={"100%"}>
       <Box
         w={"100%"}
-        h={isVertical ? "20vh" : "30vh"}
+        h={isVertical ? "10vh" : "30vh"}
         backgroundImage={`url(${bgImg})`}
         backgroundSize={!isVertical ? "contain" : "cover"}
         bgRepeat={"no-repeat"}
@@ -75,7 +75,7 @@ const HomePage = () => {
           mt={-45}
           alignItems={"center"}
           justifyContent={"space-between"}
-          ml={20}
+          ml={isVertical ? 10 : 20}
           gap={10}
           // position={"fixed"}
         >
@@ -87,6 +87,7 @@ const HomePage = () => {
       )}
 
       <Tabs
+        // w={"100%"}
         onChange={handleTabChange}
         index={currentTab}
         bg={"transparent"}
@@ -150,13 +151,17 @@ const HomePage = () => {
           borderRadius={5}
           bgColor={"white"}
         >
-          <TabPanel borderRadius={5}>
+          <TabPanel h={"100vh"} borderRadius={5}>
             <Dashboard />
           </TabPanel>
           <TabPanel
             h={!isVertical ? "660px" : ""}
             boxShadow="xl"
-            borderRadius={5}
+            // borderRadius={5}
+            // border={"1px solid red"}
+            // w={"100%"}
+            // border={"1px solid red"}
+            p={0}
           >
             <ProjectListing />
           </TabPanel>

@@ -126,7 +126,7 @@ const LoginPage = () => {
             </Stack>
             <Box>
               {/* <form action=""> */}
-              <Stack spacing={4}>
+              <Stack spacing={4} pb={5}>
                 <FormControl isInvalid={checkEmail} id="email">
                   <FormLabel>Email address</FormLabel>
                   <Input
@@ -151,7 +151,7 @@ const LoginPage = () => {
                     <FormErrorMessage>Email is required.</FormErrorMessage>
                   )}
                 </FormControl>
-                <Stack mt={8} spacing={10}>
+                <Stack mt={8}  spacing={10}>
                   <Button
                     w={"50%"}
                     margin={"auto"}

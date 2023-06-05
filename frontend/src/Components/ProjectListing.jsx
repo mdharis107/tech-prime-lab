@@ -98,7 +98,7 @@ const ProjectListing = () => {
       <Flex
         pb={5}
         pt={3}
-        px={isMobile ? 0 : 8}
+        px={isMobile ? 3 : 8}
         // gap={10}
         alignItems={"center"}
         justifyContent={"space-between"}

@@ -6,7 +6,7 @@ const ProjectTable = ({ data, handleUpdate }) => {
   // console.log(data);
   return (
     <>
-      <TableContainer borderRadius={5} w={"100%"}>
+      <TableContainer  borderRadius={5} w={"100%"}>
         <Table size={"sm"} variant="simple">
           <Thead bgColor={"gray.100"}>
             <Tr>
