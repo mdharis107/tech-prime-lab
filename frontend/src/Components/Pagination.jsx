@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, ButtonGroup, Center, Text } from "@chakra-ui/react";
+import { Button, ButtonGroup, Center } from "@chakra-ui/react";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const [pageNumbers, setPageNumbers] = useState([]);
 
-
-    useEffect(() => {
-      const numbers = Array.from({ length: totalPages }, (_, index) => index + 1);
-      setPageNumbers(numbers);
-    }, [totalPages]);
+  useEffect(() => {
+    const numbers = Array.from({ length: totalPages }, (_, index) => index + 1);
+    setPageNumbers(numbers);
+  }, [totalPages]);
 
   return (
     <>
-      <Center mt={4}>
+      <Center>
         <ButtonGroup variant="outline" size="sm">
           <Button
             isDisabled={currentPage === 1}

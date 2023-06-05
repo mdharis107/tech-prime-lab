@@ -2,7 +2,8 @@ import React from "react";
 import { Table, Thead, Tbody, Tr, Th, TableContainer } from "@chakra-ui/react";
 import ProjectTableRow from "./ProjectTableRow";
 
-const ProjectTable = ({ data }) => {
+const ProjectTable = ({ data, handleUpdate }) => {
+  // console.log(data);
   return (
     <>
       <TableContainer borderRadius={5} w={"100%"}>
@@ -19,27 +20,26 @@ const ProjectTable = ({ data }) => {
               <Th>Location</Th>
               <Th>Status</Th>
               <Th></Th>
-              {/* <Th></Th> */}
-              {/* <Th></Th> */}
             </Tr>
           </Thead>
           <Tbody w={"100%"}>
-            {data.map((ele) => {
-              // console.log(ele);
+            {data?.map((ele) => {
               return (
                 <ProjectTableRow
-                  key={ele._id}
-                  ProjectName={ele.ProjectName}
-                  Category={ele.Category}
-                  Division={ele.Division}
-                  Location={ele.Location}
-                  StartDate={ele.StartDate}
-                  EndDate={ele.EndDate}
-                  Priority={ele.Priority}
-                  Status={ele.Status}
-                  Type={ele.Type}
-                  Reason={ele.Reason}
-                  Department={ele.Department}
+                  key={ele?._id}
+                  ProjectName={ele?.ProjectName}
+                  Category={ele?.Category}
+                  Division={ele?.Division}
+                  Location={ele?.Location}
+                  StartDate={ele?.StartDate}
+                  EndDate={ele?.EndDate}
+                  Priority={ele?.Priority}
+                  Status={ele?.Status}
+                  Type={ele?.Type}
+                  Reason={ele?.Reason}
+                  Department={ele?.Department}
+                  id={ele?._id}
+                  handleUpdate={handleUpdate}
                 />
               );
             })}

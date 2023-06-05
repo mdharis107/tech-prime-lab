@@ -2,6 +2,7 @@ import React from "react";
 import { Tr, Td, Button, Text, Heading } from "@chakra-ui/react";
 
 const ProjectTableRow = ({
+  id,
   ProjectName,
   StartDate,
   EndDate,
@@ -13,7 +14,9 @@ const ProjectTableRow = ({
   Department,
   Location,
   Status,
+  handleUpdate,
 }) => {
+  // console.log(key)
   const monthNumberToWord = (monthNumber) => {
     const date = new Date();
     date.setMonth(monthNumber - 1); // Months are zero-based in JavaScript Date object
@@ -51,6 +54,7 @@ const ProjectTableRow = ({
             fontWeight={400}
             w={"80px"}
             // px={5}
+            onClick={() => handleUpdate("Running", id)}
           >
             START
           </Button>
@@ -62,6 +66,7 @@ const ProjectTableRow = ({
             variant={"outline"}
             w={"80px"}
             fontWeight={400}
+            onClick={() => handleUpdate("Closed", id)}
           >
             CLOSE
           </Button>
@@ -73,6 +78,7 @@ const ProjectTableRow = ({
             // px={5}
             w={"80px"}
             variant={"outline"}
+            onClick={() => handleUpdate("Cancelled", id)}
           >
             END
           </Button>

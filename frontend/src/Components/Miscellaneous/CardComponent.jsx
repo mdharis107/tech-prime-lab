@@ -23,6 +23,8 @@ const CardComponent = ({
   Department,
   Location,
   Status,
+  handleUpdate,
+  id,
 }) => {
   const monthNumberToWord = (monthNumber) => {
     const date = new Date();
@@ -32,7 +34,7 @@ const CardComponent = ({
 
   return (
     <>
-      <Card mb={5} boxShadow="md" w={"95%"} align="center">
+      <Card mb={5} boxShadow="rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px" w={"95%"} align="center">
         <CardHeader
           mb={"-8"}
           w={"100%"}
@@ -127,6 +129,7 @@ const CardComponent = ({
               variant={"solid"}
               px={6}
               fontWeight={400}
+              onClick={() => handleUpdate("Running", id)}
             >
               Start
             </Button>
@@ -137,6 +140,7 @@ const CardComponent = ({
               variant={"outline"}
               px={5}
               fontWeight={400}
+              onClick={() => handleUpdate("Closed", id)}
             >
               Close
             </Button>
@@ -146,6 +150,7 @@ const CardComponent = ({
               colorScheme="blue"
               fontWeight={400}
               variant={"outline"}
+              onClick={() => handleUpdate("Cancelled", id)}
             >
               Cancel
             </Button>

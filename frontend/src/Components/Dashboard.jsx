@@ -21,7 +21,7 @@ const Dashboard = () => {
       .then((res) => setChartData(res.data));
   }, []);
 
-  console.log(chartData);
+  // console.log(chartData);
 
   return (
     <>

@@ -31,7 +31,6 @@ import { useSearchParams } from "react-router-dom";
 const ProjectListing = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [selectedOption, setSelectedOption] = useState("");
   const [data, setData] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const initPage = getPage(searchParams.get("page"));
@@ -40,12 +39,8 @@ const ProjectListing = () => {
   const [page, setPage] = useState(initPage);
   const [totalPages, setTotalPages] = useState();
   const AllPage = Math.ceil(totalPages / 10);
-  const [query, setQuery] = useState(initQuery);
+  const [query, setQuery] = useState(initQuery || "");
   const [sortBy, setSortBy] = useState(initSort);
-
-  // console.log(totalPages);
-
-  // console.log(searchParams);
 
   const handleSelectChange = (e) => {
     setSortBy(e.target.value);
@@ -56,30 +51,39 @@ const ProjectListing = () => {
     onClose();
   };
 
-  const fetchData = async (page, query, sortBy) => {
-    return axios.get(
-      `http://localhost:8000/project?limit=${10}&page=${page}&filter=${query}&sort=${sortBy}`
-    );
-  };
-
-  // console.log(data);
-
-  // const handlePageChange = (page) => {
-  //   // console.log(page,"here")
-  //   setCurrentPage(page);
-  //   fetchData(page);
-  // };
-
   useEffect(() => {
-    fetchData(page, query, sortBy)
+    fetchData(page, query, sortBy);
+  }, [page, query, sortBy]);
+
+  const fetchData = (page, query, sortBy) => {
+    console.log("object");
+    axios
+      .get(
+        `http://localhost:8000/project?limit=${10}&page=${page}&filter=${query}&sort=${sortBy}`
+      )
       .then((res) => {
+        // console.log(res);
         setData(res.data.projects);
         setTotalPages(res.data.totalCount);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [page, query, sortBy]);
+  };
+
+  const handleUpdate = (value, id) => {
+    axios
+      .put(`http://localhost:8000/project/updateStatus`, {
+        Status: value,
+        id: id,
+      })
+      .then((res) => {
+        setData(res.data.updatedStatus);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     if (query === "") {
@@ -88,6 +92,7 @@ const ProjectListing = () => {
       setSearchParams({ page, query, sortBy });
     }
   }, [setSearchParams, page, query, sortBy]);
+
 
   return (
     <>
@@ -144,11 +149,6 @@ const ProjectListing = () => {
             </Flex>
           ) : (
             <Box>
-              {/* <Select
-                value={selectedOption}
-                onChange={handleSelectChange}
-                display="none"
-              /> */}
               <Box onClick={onOpen} cursor="pointer">
                 <Icon boxSize={8} as={BsFilterLeft} />
               </Box>
@@ -188,41 +188,42 @@ const ProjectListing = () => {
       {isMobile ? (
         <Box w={"100%"}>
           {/* Render card components */}
-          {data.map((ele) => {
-            return (
-              <CardComponent
-                key={ele._id}
-                ProjectName={ele.ProjectName}
-                Category={ele.Category}
-                Division={ele.Division}
-                Location={ele.Location}
-                StartDate={ele.StartDate}
-                EndDate={ele.EndDate}
-                Priority={ele.Priority}
-                Status={ele.Status}
-                Type={ele.Type}
-                Reason={ele.Reason}
-                Department={ele.Department}
-              />
-            );
-          })}
+          {data.length >= 1 &&
+            data.map((ele) => {
+              return (
+                <CardComponent
+                  key={ele?._id}
+                  ProjectName={ele?.ProjectName}
+                  Category={ele?.Category}
+                  Division={ele?.Division}
+                  Location={ele?.Location}
+                  StartDate={ele.StartDate}
+                  EndDate={ele.EndDate}
+                  Priority={ele.Priority}
+                  Status={ele.Status}
+                  Type={ele.Type}
+                  Reason={ele.Reason}
+                  Department={ele.Department}
+                  handleUpdate={handleUpdate}
+                  id={ele._id}
+                />
+              );
+            })}
         </Box>
       ) : (
-        <ProjectTable data={data} />
+        <ProjectTable handleUpdate={handleUpdate} data={data} />
       )}
-      <Box pb={5}>
-        <Pagination
-          currentPage={page}
-          totalPages={AllPage}
-          onPageChange={(page) => setPage(page)}
-        />
-
-        {/* <Pagination
-          totalPage={AllPage}
-          current={page}
-          onChange={(page) => setPage(page)}
-        /> */}
-      </Box>
+      {AllPage === 1 ? (
+        ""
+      ) : (
+        <Box w={"90%"} mb={2} p={2} borderRadius={5}>
+          <Pagination
+            currentPage={page}
+            totalPages={AllPage}
+            onPageChange={(page) => setPage(page)}
+          />
+        </Box>
+       )} 
     </>
   );
 };

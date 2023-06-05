@@ -31,19 +31,26 @@ const HomePage = () => {
   const handleTabChange = (index) => {
     setCurrentTab(index);
   };
-  
+
   return (
     <Box
       w={"100%"}
-      h={isVertical ? "20vh" : "30vh"}
-      backgroundImage={`url(${bgImg})`}
-      backgroundSize={!isVertical ? "contain" : "cover"}
-      bgRepeat={"no-repeat"}
-      backgroundPosition={!isVertical ? "60px 0" : ""}
     >
+      <Box
+        w={"100%"}
+        h={isVertical ? "20vh" : "30vh"}
+        backgroundImage={`url(${bgImg})`}
+        backgroundSize={!isVertical ? "contain" : "cover"}
+        bgRepeat={"no-repeat"}
+        backgroundPosition={!isVertical ? "60px 0" : ""}
+        // position={!isVertical ? "" : "sticky"}
+        // top={0}
+        // color={"white"}
+      ></Box>
+
       {!isVertical && (
         <Flex
-          mt={10}
+          mt={-180}
           alignItems={"center"}
           justifyContent={"space-between"}
           w={"48%"}
@@ -58,24 +65,28 @@ const HomePage = () => {
 
       {isVertical && (
         <Flex
-          mt={5}
+          mt={-45}
           alignItems={"center"}
           justifyContent={"space-between"}
           ml={20}
+          gap={10}
+          // position={"fixed"}
         >
-          <Heading fontWeight={500} color={"white"} fontSize={"25px"}>
+          <Heading  fontWeight={500} color={"white"} fontSize={"25px"}>
             {tabs[currentTab]}
           </Heading>
-          <Image mr={5} src={logoutImg} />
+          <Image  mr={5} src={logoutImg} />
         </Flex>
       )}
 
       <Tabs
+      position={"rela"}
         onChange={handleTabChange}
         index={currentTab}
         bg={"transparent"}
         pt={isVertical ? "20px" : ""}
         align="center"
+        // bgColor={"gray"}
         orientation={!isVertical ? "vertical" : "horizontal"}
       >
         {!isVertical && (
@@ -104,7 +115,7 @@ const HomePage = () => {
               <Image boxSize={7} src={projectListImg} />
             </Tab>
 
-            <Divider p={0}  />
+            <Divider p={0} />
             <Tab
               _selected={{
                 borderLeft: "5px solid blue",
@@ -120,7 +131,12 @@ const HomePage = () => {
           </TabList>
         )}
 
-        <TabPanels m={!isVertical ? 5 : 0} borderRadius={5}>
+        <TabPanels
+          // border={"1px solid red"}
+          m={!isVertical ? 5 : 0}
+          borderRadius={5}
+          bgColor={"white"}
+        >
           <TabPanel borderRadius={5}>
             <Dashboard />
           </TabPanel>
@@ -129,7 +145,7 @@ const HomePage = () => {
             boxShadow="xl"
             p={0}
             borderRadius={5}
-            bg={"white"}
+            // bgColor={"gray.200"}
           >
             <ProjectListing />
           </TabPanel>
@@ -142,8 +158,21 @@ const HomePage = () => {
             <CreateProject />
           </TabPanel>
         </TabPanels>
+
         {isVertical && (
-          <TabList borderRadius={5} gap={5}>
+          <TabList
+            position={"sticky"}
+            bottom={0}
+            bgColor={"white"}
+            py={2}
+            // border={"1px solid red"}
+            boxShadow={
+              "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px"
+            }
+            w={"100%"}
+            borderTopRadius={10}
+            gap={8}
+          >
             <Tab
               _selected={{
                 borderBottom: "5px solid blue",
