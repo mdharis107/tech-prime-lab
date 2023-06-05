@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Tabs,
@@ -24,19 +24,72 @@ import ProjectListing from "../Components/ProjectListing";
 import CreateProject from "../Components/CreateProject";
 import { removeData } from "../Components/utils/localStorage";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { ProjectState } from "../Components/Context/ProjectProvider";
 
 const HomePage = () => {
   const isVertical = useBreakpointValue({ base: true, lg: false });
   const tabs = ["Dashboard", "Project Listing", "Create Project"];
   const [currentTab, setCurrentTab] = useState(0);
   const navigate = useNavigate();
+  const [data, setData] = useState([]);
+  const [chartData, setChartData] = useState([]);
+  const [activeTab, setActiveTab] = useState(null);
+
+  // useEffect(() => {
+  //   axios.get(`http://localhost:8000/project/count`).then((res) => {
+  //     setData(res.data);
+  //     // setUser(res.data);
+  //   });
+  // }, []);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:8000/project/chart`)
+  //     .then((res) => setChartData(res.data));
+  // }, []);
+
+  const handleTab = (tab) => {
+    if (tab === activeTab) {
+      // If the clicked tab is already active, no need to refetch the data
+      return;
+    }
+    // if (tab === activeTab) {
+    //   setActiveTab(null);
+    // } else {
+    console.log(tab);
+    setActiveTab(tab);
+    fetchData(tab);
+    // }
+  };
+  const fetchData = async (tab) => {
+    try {
+      const fetch1 = await axios.get("http://localhost:8000/project/count");
+      const fetch2 = await axios.get("http://localhost:8000/project/chart");
+
+      const data1 = fetch1.data;
+      const data2 = fetch2.data;
+
+      setData(data1);
+      setChartData(data2);
+
+      // console.log(data, chartData);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    // console.log("object");
+    fetchData(activeTab);
+  }, [activeTab]);
 
   const handleTabChange = (index) => {
     setCurrentTab(index);
   };
 
   const handleLogout = () => {
-    console.log("object");
+    // console.log("object");
     removeData("userInfo");
     navigate("/");
   };
@@ -82,31 +135,22 @@ const HomePage = () => {
           <Heading fontWeight={500} color={"white"} fontSize={"25px"}>
             {tabs[currentTab]}
           </Heading>
-          <Image mr={5} src={logoutImg} />
+          <Image onClick={handleLogout} mr={5} src={logoutImg} />
         </Flex>
       )}
 
       <Tabs
-        // w={"100%"}
         onChange={handleTabChange}
         index={currentTab}
         bg={"transparent"}
         pt={isVertical ? "20px" : ""}
         align="center"
-        // bgColor={"gray"}
         orientation={!isVertical ? "vertical" : "horizontal"}
       >
         {!isVertical && (
-          <TabList
-            pr={2}
-            boxShadow="xl"
-            // mt={10}
-            borderRadius={5}
-            // gap={5}
-            mr={5}
-            // h={"90vh"}
-          >
+          <TabList pr={2} boxShadow="xl" borderRadius={5} mr={5}>
             <Tab
+              onClick={() => handleTab("tab1")}
               _selected={{
                 borderLeft: "5px solid blue",
               }}
@@ -115,6 +159,7 @@ const HomePage = () => {
               <Image boxSize={7} src={dashboardImg} />
             </Tab>
             <Tab
+              onClick={() => handleTab("Tab2")}
               _selected={{
                 borderLeft: "5px solid blue",
               }}
@@ -145,22 +190,15 @@ const HomePage = () => {
           </TabList>
         )}
 
-        <TabPanels
-          // border={"1px solid red"}
-          m={!isVertical ? 5 : 0}
-          borderRadius={5}
-          bgColor={"white"}
-        >
-          <TabPanel h={"100vh"} borderRadius={5}>
-            <Dashboard />
+        <TabPanels m={!isVertical ? 5 : 0}>
+          <TabPanel borderRadius={5}>
+            <Dashboard data={data} chartData={chartData} />
           </TabPanel>
           <TabPanel
-            h={!isVertical ? "660px" : ""}
+            h={!isVertical ? "700px" : ""}
             boxShadow="xl"
-            // borderRadius={5}
-            // border={"1px solid red"}
-            // w={"100%"}
-            // border={"1px solid red"}
+            bg={"white"}
+            borderRadius={5}
             p={0}
           >
             <ProjectListing />
@@ -190,6 +228,7 @@ const HomePage = () => {
             gap={8}
           >
             <Tab
+              onClick={() => handleTab("tab1")}
               _selected={{
                 borderBottom: "5px solid blue",
               }}

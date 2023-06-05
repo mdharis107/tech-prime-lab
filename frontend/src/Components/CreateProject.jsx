@@ -15,12 +15,14 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 // import { format } from "date-fns";
 
 const CreateProject = () => {
   const isVertical = useBreakpointValue({ base: true, lg: false });
   const [check, setCheck] = useState(false);
   const [data, setData] = useState({});
+  const navigate = useNavigate();
   const toast = useToast();
 
   const handleChange = (e) => {
@@ -31,7 +33,6 @@ const CreateProject = () => {
       [name]: value,
     });
   };
-
 
   const handleSubmit = () => {
     // e.preventDefault();
@@ -53,10 +54,11 @@ const CreateProject = () => {
     ) {
       return;
     }
-    console.log(data);
+    // console.log(data);
     try {
-      axios.post("http://localhost:8000/project/addProject", data).then(
-        (res) => {
+      axios
+        .post("http://localhost:8000/project/addProject", data)
+        .then((res) => {
           res.data.err
             ? toast({
                 title: res.data.msg,
@@ -64,15 +66,18 @@ const CreateProject = () => {
                 duration: 9000,
                 isClosable: true,
               })
-            : toast({
-                title: res.data.msg,
-                status: "success",
-                duration: 9000,
-                isClosable: true,
-              });
-        }
-        // console.log(res)
-      );
+            : toast(
+                {
+                  title: res.data.msg,
+                  status: "success",
+                  duration: 9000,
+                  isClosable: true,
+                },
+                window.location.reload()
+              );
+
+          // navigate("/projects")
+        });
     } catch (err) {
       console.log(err);
     }
@@ -80,11 +85,6 @@ const CreateProject = () => {
 
   return (
     <Flex direction={"column"} gap={5} borderRadius={5}>
-      {/* <form
-        onSubmit={handleSubmit}
-        action=""
-        style={{ border: 0, padding: 0, textAlign: "left" }}
-      > */}
       <Flex alignItems={"center"} justifyContent={"space-between"}>
         <FormControl
           isRequired
@@ -291,7 +291,6 @@ const CreateProject = () => {
           </Button>
         )}
       </Box>
-      {/* </form> */}
     </Flex>
   );
 };

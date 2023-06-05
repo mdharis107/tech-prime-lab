@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { loadData } from "../utils/localStorage";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +10,6 @@ const ProjectProvider = ({ children }) => {
 
   useEffect(() => {
     const userInfo = loadData("userInfo");
-    setUser(userInfo);
 
     if (!userInfo) {
       navigate("/");
@@ -22,6 +21,10 @@ const ProjectProvider = ({ children }) => {
       {children}
     </ProjectContext.Provider>
   );
+};
+
+export const ProjectState = () => {
+  return useContext(ProjectContext);
 };
 
 export default ProjectProvider;

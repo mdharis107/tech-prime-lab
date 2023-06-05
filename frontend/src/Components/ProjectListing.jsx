@@ -27,6 +27,7 @@ import ProjectTable from "./Miscellaneous/ProjectTable";
 import Pagination from "./Pagination";
 import { getPage, getQuery, getSort } from "./utils/utils";
 import { useSearchParams } from "react-router-dom";
+import { ProjectState } from "./Context/ProjectProvider";
 
 const ProjectListing = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -41,6 +42,9 @@ const ProjectListing = () => {
   const AllPage = Math.ceil(totalPages / 10);
   const [query, setQuery] = useState(initQuery || "");
   const [sortBy, setSortBy] = useState(initSort);
+  // const { user } = ProjectState();
+
+  // console.log(user);
 
   const handleSelectChange = (e) => {
     setSortBy(e.target.value);
@@ -56,7 +60,6 @@ const ProjectListing = () => {
   }, [page, query, sortBy]);
 
   const fetchData = (page, query, sortBy) => {
-    console.log("object");
     axios
       .get(
         `http://localhost:8000/project?limit=${10}&page=${page}&filter=${query}&sort=${sortBy}`
@@ -73,10 +76,13 @@ const ProjectListing = () => {
 
   const handleUpdate = (value, id) => {
     axios
-      .put(`http://localhost:8000/project/updateStatus`, {
-        Status: value,
-        id: id,
-      })
+      .put(
+        `http://localhost:8000/project/updateStatus?limit=${10}&page=${page}&filter=${query}&sort=${sortBy}`,
+        {
+          Status: value,
+          id: id,
+        }
+      )
       .then((res) => {
         setData(res.data.updatedStatus);
       })
