@@ -55,7 +55,10 @@ const LoginPage = () => {
     // console.log(email,password)
     if (!email == "" && !password == "") {
       axios
-        .post("https://tech-prime-lab.onrender.com/user/login", { email, password })
+        .post("https://tech-prime-lab.onrender.com/user/login", {
+          email,
+          password,
+        })
         .then((res) => {
           console.log(res.data.msg);
           toast({
@@ -162,7 +165,7 @@ const LoginPage = () => {
                   )}
                 </FormControl>
                 <Stack mt={8} spacing={5}>
-                  {isVertical && (checkPass || checkEmail) && (
+                  {isVertical && (
                     <Text
                       textAlign={"left"}
                       fontSize={"14px"}
@@ -170,7 +173,7 @@ const LoginPage = () => {
                       mt={-5}
                       pl={3}
                     >
-                      Invalid Credentials
+                      {error && error}
                     </Text>
                   )}
                   <Button
@@ -192,9 +195,9 @@ const LoginPage = () => {
             </Box>
           </Stack>
         </Box>
-        {!isVertical && (checkPass || checkEmail) && (
+        {!isVertical && (
           <Text textAlign={"center"} fontSize={"14px"} color={"red.500"} mt={9}>
-            Invalid Credentials
+            {error && error}
           </Text>
         )}
       </Box>
