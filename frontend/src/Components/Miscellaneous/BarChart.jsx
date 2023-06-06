@@ -4,41 +4,21 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 
 Chart.register(ChartDataLabels);
 
-const options = {
-  responsive: true,
-  maintainAspectRatio: false,
-  scales: {
-    x: {
-      grid: {
-        display: false,
-      },
-    },
-    y: {
-      grid: {
-        display: false,
-      },
-    },
-  },
-  plugins: {
-    legend: {
-      position: "bottom",
-      labels: {
-        usePointStyle: true,
-      },
-    },
-    datalabels: {
-      display: true,
-      color: "black",
-      anchor: "end",
-      offset: -17,
-      align: "start",
-    },
-  },
-};
-
 const BarChart = ({ data }) => {
+  // console.log(data.total.length)
+  var per = [];
+  for (var i = 0; i < data?.total?.length; i++) {
+    const value = (data.closed[i] / data.total[i]) * 100;
+    per.push(Math.round(value) + "%");
+  }
+
+  const labelData = ["STR", "FIN", "QLT", "MAN", "STO", "HR"];
+
+  // console.log(per);
+
   const chartData = {
-    labels: ["STR", "FIN", "QLT", "MAN", "STO", "HR"],
+    labels: per.map((value, index) => `${value}`+ "\n" + `${labelData[index]}`),
+
     datasets: [
       {
         label: "Total",
@@ -61,6 +41,43 @@ const BarChart = ({ data }) => {
         categoryPercentage: 0.4,
       },
     ],
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          autoSkip: false, // Prevent automatic skipping of labels
+          maxRotation: 0, // Disable label rotation
+          padding: 0,
+        },
+      },
+      y: {
+        grid: {
+          display: false,
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        position: "bottom",
+        labels: {
+          usePointStyle: true,
+        },
+      },
+      datalabels: {
+        display: true,
+        color: "black",
+        anchor: "end",
+        offset: -17,
+        align: "start",
+      },
+    },
   };
   return (
     <>
