@@ -44,28 +44,6 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   );
 };
 
-// const Pagination = ({ current, onChange, totalPage }) => {
-//   const prev = (
-//     <Button onClick={() => onChange(current - 1)} isDisabled={current === 1}>
-//       PREV
-//     </Button>
-//   );
-//   const currentPage = <button>{current}</button>;
-//   const next = (
-//     <Button
-//       isDisabled={totalPage === current}
-//       onClick={() => onChange(current + 1)}
-//     >
-//       NEXT
-//     </Button>
-//   );
-//   return (
-//     <div>
-//       {prev}
-//       {currentPage}
-//       {next}
-//     </div>
-//   );
-// };
+
 
 export default Pagination;

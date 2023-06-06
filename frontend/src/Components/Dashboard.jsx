@@ -6,22 +6,7 @@ import axios from "axios";
 
 const Dashboard = ({ data, chartData }) => {
   const isVertical = useBreakpointValue({ base: true, lg: false });
-  // const [data, setData] = useState([]);
-  // const [chartData, setChartData] = useState([]);
-
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://localhost:8000/project/count`)
-  //     .then((res) => setData(res.data));
-  // }, []);
-
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://localhost:8000/project/chart`)
-  //     .then((res) => setChartData(res.data));
-  // }, []);
-
-  // console.log(chartData);
+ 
 
   return (
     <>

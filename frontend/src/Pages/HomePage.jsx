@@ -49,8 +49,8 @@ const HomePage = () => {
   };
   const fetchData = async (tab) => {
     try {
-      const fetch1 = await axios.get("http://localhost:8000/project/count");
-      const fetch2 = await axios.get("http://localhost:8000/project/chart");
+      const fetch1 = await axios.get("https://tech-prime-lab.onrender.com/project/count");
+      const fetch2 = await axios.get("https://tech-prime-lab.onrender.com/project/chart");
 
       const data1 = fetch1.data;
       const data2 = fetch2.data;

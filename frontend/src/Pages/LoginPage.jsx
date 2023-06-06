@@ -52,9 +52,10 @@ const LoginPage = () => {
     if (password.trim() === "") {
       setCheckPass(true);
     }
-    if (!email === "" && !password === "") {
+    // console.log(email,password)
+    if (!email == "" && !password == "") {
       axios
-        .post("http://localhost:8000/user/login", { email, password })
+        .post("https://tech-prime-lab.onrender.com/user/login", { email, password })
         .then((res) => {
           console.log(res.data.msg);
           toast({

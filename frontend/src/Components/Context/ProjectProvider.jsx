@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 const ProjectContext = createContext();
 
 const ProjectProvider = ({ children }) => {
+  const [user, setUser] = useState();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,7 +16,11 @@ const ProjectProvider = ({ children }) => {
     }
   }, [navigate]);
 
-  return <ProjectContext.Provider>{children}</ProjectContext.Provider>;
+  return (
+    <ProjectContext.Provider value={{ user, setUser }}>
+      {children}
+    </ProjectContext.Provider>
+  );
 };
 
 export const ProjectState = () => {

@@ -42,9 +42,7 @@ const ProjectListing = () => {
   const AllPage = Math.ceil(totalPages / 10);
   const [query, setQuery] = useState(initQuery || "");
   const [sortBy, setSortBy] = useState(initSort);
-  // const { user } = ProjectState();
 
-  // console.log(user);
 
   const handleSelectChange = (e) => {
     setSortBy(e.target.value);
@@ -62,7 +60,7 @@ const ProjectListing = () => {
   const fetchData = (page, query, sortBy) => {
     axios
       .get(
-        `http://localhost:8000/project?limit=${10}&page=${page}&filter=${query}&sort=${sortBy}`
+        `https://tech-prime-lab.onrender.com/project?limit=${10}&page=${page}&filter=${query}&sort=${sortBy}`
       )
       .then((res) => {
         // console.log(res);
@@ -77,7 +75,7 @@ const ProjectListing = () => {
   const handleUpdate = (value, id) => {
     axios
       .put(
-        `http://localhost:8000/project/updateStatus?limit=${10}&page=${page}&filter=${query}&sort=${sortBy}`,
+        `https://tech-prime-lab.onrender.com/project/updateStatus?limit=${10}&page=${page}&filter=${query}&sort=${sortBy}`,
         {
           Status: value,
           id: id,
@@ -105,7 +103,6 @@ const ProjectListing = () => {
         pb={5}
         pt={3}
         px={isMobile ? 3 : 8}
-        // gap={10}
         alignItems={"center"}
         justifyContent={"space-between"}
       >
