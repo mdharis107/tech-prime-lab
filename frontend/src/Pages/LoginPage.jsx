@@ -16,10 +16,13 @@ import {
   Image,
   FormErrorMessage,
   useToast,
+  InputRightElement,
+  InputGroup,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { saveData } from "../Components/utils/localStorage";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 const LoginPage = () => {
   const isVertical = useBreakpointValue({ base: true, lg: false });
@@ -28,6 +31,7 @@ const LoginPage = () => {
   const [checkEmail, setCheckEmail] = useState(false);
   const [checkPass, setCheckPass] = useState(false);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -134,12 +138,24 @@ const LoginPage = () => {
                 </FormControl>
                 <FormControl isInvalid={checkPass} id="password">
                   <FormLabel>Password</FormLabel>
-                  <Input
-                    onChange={handleChangePass}
-                    value={password}
-                    size={"lg"}
-                    type="password"
-                  />
+                  <InputGroup>
+                    <Input
+                      onChange={handleChangePass}
+                      value={password}
+                      size={"lg"}
+                      type={showPassword ? "text" : "password"}
+                    />
+                    <InputRightElement h={"full"}>
+                      <Button
+                        variant={"ghost"}
+                        onClick={() =>
+                          setShowPassword((showPassword) => !showPassword)
+                        }
+                      >
+                        {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
                   {checkPass && (
                     <FormErrorMessage>Password is required.</FormErrorMessage>
                   )}
