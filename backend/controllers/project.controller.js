@@ -215,7 +215,36 @@ const chartProject = async (req, res) => {
 
 const updateStatus = async (req, res) => {
   const { Status, id } = req.body;
-  
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+
+  //Filter Functionality
+  const filterData = req.query.filter
+    ? {
+        $or: [
+          { ProjectName: { $regex: req.query.filter, $options: "i" } },
+          { Reason: { $regex: req.query.filter, $options: "i" } },
+          { Type: { $regex: req.query.filter, $options: "i" } },
+          { Division: { $regex: req.query.filter, $options: "i" } },
+          { Category: { $regex: req.query.filter, $options: "i" } },
+          { Priority: { $regex: req.query.filter, $options: "i" } },
+          { Department: { $regex: req.query.filter, $options: "i" } },
+          { Location: { $regex: req.query.filter, $options: "i" } },
+          { Status: { $regex: req.query.filter, $options: "i" } },
+        ],
+      }
+    : {};
+
+  // Sorting Functionality
+  let sort = req.query.sort || "ProjectName";
+  req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
+
+  let sortBy = {};
+  if (sort[1]) {
+    sortBy[sort[0]] = sort[1];
+  } else {
+    sortBy[sort[0]] = "asc";
+  }
 
   await ProjectModel.findByIdAndUpdate(
     id,
@@ -227,7 +256,11 @@ const updateStatus = async (req, res) => {
     }
   );
 
-  const updatedStatus = await ProjectModel.find();
+  const updatedStatus = await ProjectModel.find({})
+    .find(filterData)
+    .sort(sortBy)
+    .skip((page - 1) * limit)
+    .limit(limit);
 
   if (!updatedStatus) {
     res.status(404).send({ msg: "Project Not Found" });

@@ -16,7 +16,7 @@ const login = async (req, res) => {
       if (result) {
         res.status(200).send({ msg: "Login Successful" });
       } else {
-        res.status(200).send({ msg: "Invalid Credentials" });
+        res.status(400).send({ msg: "Invalid Credentials" });
       }
     });
   } else {
