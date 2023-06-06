@@ -10,7 +10,6 @@ import {
   FormLabel,
   Input,
   Stack,
-  Link,
   Button,
   Text,
   useColorModeValue,
@@ -28,6 +27,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [checkEmail, setCheckEmail] = useState(false);
   const [checkPass, setCheckPass] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -48,31 +48,26 @@ const LoginPage = () => {
     if (password.trim() === "") {
       setCheckPass(true);
     }
-
-    axios
-      .post("http://localhost:8000/user/login", { email, password })
-      .then((res) => {
-        console.log(res.data.msg);
-        toast({
-          title: res.data.msg,
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-          position: "bottom",
+    if (!email === "" && !password === "") {
+      axios
+        .post("http://localhost:8000/user/login", { email, password })
+        .then((res) => {
+          console.log(res.data.msg);
+          toast({
+            title: res.data.msg,
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+            position: "bottom",
+          });
+          setError("");
+          saveData("userInfo", true);
+          navigate("/projects");
+        })
+        .catch((err) => {
+          setError(err.response.data.msg);
         });
-        saveData("userInfo", true);
-        navigate("/projects");
-      })
-      .catch((err) => {
-        // console.log(err.response.data.msg);
-        toast({
-          title: err.response.data.msg,
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-          position: "bottom",
-        });
-      });
+    }
   };
 
   return (
@@ -87,7 +82,7 @@ const LoginPage = () => {
           backgroundPosition={!isVertical ? "0 -130px" : "0 0 "}
           // mb={0}
         ></Box>
-        <Box w={"100%"} mt={!isVertical ? -500 : -180}>
+        <Box w={"100%"} mt={!isVertical ? -520 : -180}>
           <Flex
             gap={5}
             flexDir={"column"}
@@ -101,16 +96,15 @@ const LoginPage = () => {
           </Flex>
         </Box>
 
-        <Box mt={isVertical ? 60 : 50} w={"auto"}>
+        <Box mt={isVertical ? 60 : 30} w={"auto"}>
           <Stack
             mt={isVertical ? -150 : ""}
-            // border={"1px solid red"}
             bg={useColorModeValue("gray.50", "gray.800")}
-            boxShadow={"2xl"}
-            spacing={8}
+            boxShadow={isVertical ? "" : "2xl"}
+            spacing={6}
             mx={"auto"}
             maxW={"md"}
-            py={isVertical ? 0 : 12}
+            py={isVertical ? 0 : 6}
             px={!isVertical ? 6 : 2}
             rounded={"lg"}
           >
@@ -125,7 +119,6 @@ const LoginPage = () => {
               </Text>
             </Stack>
             <Box>
-              {/* <form action=""> */}
               <Stack spacing={4} pb={5}>
                 <FormControl isInvalid={checkEmail} id="email">
                   <FormLabel>Email address</FormLabel>
@@ -148,17 +141,29 @@ const LoginPage = () => {
                     type="password"
                   />
                   {checkPass && (
-                    <FormErrorMessage>Email is required.</FormErrorMessage>
+                    <FormErrorMessage>Password is required.</FormErrorMessage>
                   )}
                 </FormControl>
-                <Stack mt={8}  spacing={10}>
+                <Stack mt={8} spacing={5}>
+                  {isVertical && (checkPass || checkEmail) && (
+                    <Text
+                      textAlign={"left"}
+                      fontSize={"14px"}
+                      color={"red.500"}
+                      mt={-5}
+                      pl={3}
+                    >
+                      Invalid Credentials
+                    </Text>
+                  )}
                   <Button
-                    w={"50%"}
+                    w={isVertical ? "100%" : "50%"}
                     margin={"auto"}
                     bg={"blue.500"}
                     color={"white"}
+                    fontWeight={400}
                     _hover={{
-                      bg: "blue.500",
+                      bg: "blue.400",
                     }}
                     borderRadius={25}
                     onClick={handleSubmit}
@@ -167,10 +172,14 @@ const LoginPage = () => {
                   </Button>
                 </Stack>
               </Stack>
-              {/* </form> */}
             </Box>
           </Stack>
         </Box>
+        {!isVertical && (checkPass || checkEmail) && (
+          <Text textAlign={"center"} fontSize={"14px"} color={"red.500"} mt={9}>
+            Invalid Credentials
+          </Text>
+        )}
       </Box>
     </>
   );

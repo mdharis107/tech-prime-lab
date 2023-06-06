@@ -25,7 +25,6 @@ import CreateProject from "../Components/CreateProject";
 import { removeData } from "../Components/utils/localStorage";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { ProjectState } from "../Components/Context/ProjectProvider";
 
 const HomePage = () => {
   const isVertical = useBreakpointValue({ base: true, lg: false });
@@ -36,31 +35,17 @@ const HomePage = () => {
   const [chartData, setChartData] = useState([]);
   const [activeTab, setActiveTab] = useState(null);
 
-  // useEffect(() => {
-  //   axios.get(`http://localhost:8000/project/count`).then((res) => {
-  //     setData(res.data);
-  //     // setUser(res.data);
-  //   });
-  // }, []);
-
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://localhost:8000/project/chart`)
-  //     .then((res) => setChartData(res.data));
-  // }, []);
+ 
 
   const handleTab = (tab) => {
     if (tab === activeTab) {
       // If the clicked tab is already active, no need to refetch the data
       return;
     }
-    // if (tab === activeTab) {
-    //   setActiveTab(null);
-    // } else {
+   
     console.log(tab);
     setActiveTab(tab);
     fetchData(tab);
-    // }
   };
   const fetchData = async (tab) => {
     try {
@@ -219,7 +204,6 @@ const HomePage = () => {
             bottom={0}
             bgColor={"white"}
             py={2}
-            // border={"1px solid red"}
             boxShadow={
               "rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px"
             }
@@ -236,6 +220,7 @@ const HomePage = () => {
               <Image src={dashboardImg} />
             </Tab>
             <Tab
+              onClick={() => handleTab("Tab2")}
               _selected={{
                 borderBottom: "4px solid blue",
               }}
