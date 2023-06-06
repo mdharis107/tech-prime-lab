@@ -17,7 +17,9 @@ const BarChart = ({ data }) => {
   // console.log(per);
 
   const chartData = {
-    labels: per.map((value, index) => `${value}`+ "\n" + `${labelData[index]}`),
+    labels: per.map(
+      (value, index) => `${value}` + "\n" + `${labelData[index]}`
+    ),
 
     datasets: [
       {
@@ -52,6 +54,9 @@ const BarChart = ({ data }) => {
           display: false,
         },
         ticks: {
+          font: {
+            weight: "bold",
+          },
           autoSkip: false, // Prevent automatic skipping of labels
           maxRotation: 0, // Disable label rotation
           padding: 0,
