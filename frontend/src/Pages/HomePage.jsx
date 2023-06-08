@@ -34,33 +34,39 @@ const HomePage = () => {
   const [data, setData] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [activeTab, setActiveTab] = useState(null);
-
- 
+  const [loading, setLoading] = useState(false);
 
   const handleTab = (tab) => {
     if (tab === activeTab) {
-      // If the clicked tab is already active, no need to refetch the data
       return;
     }
-   
+
     console.log(tab);
     setActiveTab(tab);
     fetchData(tab);
   };
+
   const fetchData = async (tab) => {
+    setLoading(true);
+
     try {
-      const fetch1 = await axios.get("https://tech-prime-lab.onrender.com/project/count");
-      const fetch2 = await axios.get("https://tech-prime-lab.onrender.com/project/chart");
+      const fetch1 = await axios.get(
+        "https://tech-prime-lab.onrender.com/project/count"
+      );
+      const fetch2 = await axios.get(
+        "https://tech-prime-lab.onrender.com/project/chart"
+      );
 
       const data1 = fetch1.data;
       const data2 = fetch2.data;
 
       setData(data1);
       setChartData(data2);
-
+      setLoading(false);
       // console.log(data, chartData);
     } catch (err) {
       console.log(err);
+      setLoading(false);
     }
   };
 
@@ -177,7 +183,7 @@ const HomePage = () => {
 
         <TabPanels m={!isVertical ? 5 : 0}>
           <TabPanel borderRadius={5}>
-            <Dashboard data={data} chartData={chartData} />
+            <Dashboard loading={loading} data={data} chartData={chartData} />
           </TabPanel>
           <TabPanel
             h={!isVertical ? "700px" : ""}

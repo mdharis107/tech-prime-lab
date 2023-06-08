@@ -55,6 +55,7 @@ const LoginPage = () => {
     }
     // console.log(email,password)
     if (!email == "" && !password == "") {
+      setLoading(true);
       axios
         .post("https://tech-prime-lab.onrender.com/user/login", {
           email,
@@ -69,12 +70,15 @@ const LoginPage = () => {
             isClosable: true,
             position: "bottom",
           });
+          setLoading(false);
+
           setError("");
           saveData("userInfo", true);
           navigate("/projects");
         })
         .catch((err) => {
           setError(err.response.data.msg);
+          setLoading(false);
         });
     }
   };
@@ -178,6 +182,8 @@ const LoginPage = () => {
                     </Text>
                   )}
                   <Button
+                    isLoading={loading}
+                    loadingText="Logging..."
                     w={isVertical ? "100%" : "50%"}
                     margin={"auto"}
                     bg={"blue.500"}

@@ -1,5 +1,13 @@
 import React from "react";
-import { Box, Heading, Text, useBreakpointValue } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Heading,
+  Spinner,
+  Stack,
+  Text,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 
 const Card = ({ head, count }) => {
   const isVertical = useBreakpointValue({ base: true, lg: false });
@@ -27,19 +35,27 @@ const Card = ({ head, count }) => {
   );
 };
 
-const DashboardCards = ({ data }) => {
+const DashboardCards = ({ loading, data }) => {
   const isVertical = useBreakpointValue({ base: true, lg: false });
   return (
-    <Box
-      width={"100%"}
-      display="flex"
-      gap={5}
-      overflow={isVertical ? "scroll" : "inherit"}
-    >
-      {data.map((ele, index) => {
-        return <Card key={index} head={ele.head} count={ele.count} />;
-      })}
-    </Box>
+    <>
+      {loading ? (
+        <Center>
+          <Spinner size="xl" />
+        </Center>
+      ) : (
+        <Box
+          width={"100%"}
+          display="flex"
+          gap={5}
+          overflow={isVertical ? "scroll" : "inherit"}
+        >
+          {data.map((ele, index) => {
+            return <Card key={index} head={ele.head} count={ele.count} />;
+          })}
+        </Box>
+      )}
+    </>
   );
 };
 

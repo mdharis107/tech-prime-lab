@@ -1,17 +1,22 @@
-import { Box, Heading, Stack, useBreakpointValue } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  Spinner,
+  Stack,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import DashboardCards from "./Miscellaneous/DashboardCards";
 import BarChart from "./Miscellaneous/BarChart";
 import axios from "axios";
 
-const Dashboard = ({ data, chartData }) => {
+const Dashboard = ({ loading, data, chartData }) => {
   const isVertical = useBreakpointValue({ base: true, lg: false });
- 
 
   return (
     <>
       <Stack w={"100%"}>
-        <DashboardCards data={data} />
+        <DashboardCards loading={loading} data={data} />
         <Box textAlign={"left"}>
           <Heading fontSize={isVertical ? "15" : "30px"}>
             Department wise - Total vs closed
@@ -24,7 +29,7 @@ const Dashboard = ({ data, chartData }) => {
           bg="white"
           rounded="md"
         >
-          <BarChart data={chartData} />
+          {loading ? <Spinner size={"xl"} /> : <BarChart data={chartData} />}
         </Box>
       </Stack>
     </>
