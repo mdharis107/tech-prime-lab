@@ -52,12 +52,19 @@ const CreateProject = () => {
       !data.Department ||
       !data.Location
     ) {
+      toast({
+        title: "Fill all the Fields",
+        status: "warning",
+        duration: 9000,
+        isClosable: true,
+      })
       return;
+
     }
     // console.log(data);
     try {
       axios
-        .post("http://localhost:8000/project/addProject", data)
+        .post("https://tech-prime-lab.onrender.com/project/addProject", data)
         .then((res) => {
           res.data.err
             ? toast({
