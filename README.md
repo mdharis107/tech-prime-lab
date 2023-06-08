@@ -6,10 +6,9 @@
 ## Password : 123456
 
 
-# Features  
-
 # Pages:
 ## Login Page 
+   #### User can Login Or Sign up through the Same page
 ## Dashboard Page
 ## Project Listing Page
 ## Create Project Page
